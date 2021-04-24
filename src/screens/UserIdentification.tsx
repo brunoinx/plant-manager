@@ -15,7 +15,7 @@ export default function UserIdentification() {
     setIsFilled(!!name)
   }
   function handleInputFocused() {
-    setIsFocused(true)
+    setIsFocused(!isFocused)
   }
 
   function handleInputChange(value: string) {
@@ -27,23 +27,23 @@ export default function UserIdentification() {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding': 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <View style={styles.content}>
 
           <View style={styles.form}>
             <Text style={styles.emoji}>
               {isFilled ? '😃' : '😴'}
-              </Text>
+            </Text>
 
             <Text style={styles.title}>
               Como Podemos{'\n'} chamar você?
-            </Text>
+              </Text>
 
             <TextInput
               style={[
                 styles.input,
-                (isFocused || isFilled) && {borderBottomColor: colors.green}
+                (isFocused || isFilled) && { borderBottomColor: colors.green }
               ]}
               onFocus={handleInputFocused}
               onBlur={handleInputBlur}
@@ -51,7 +51,7 @@ export default function UserIdentification() {
               placeholder="Digite seu primeiro nome"
             />
 
-            <Button title="Começar"/>
+            <Button title="Confirmar" />
           </View>
 
         </View>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 48,
+    paddingHorizontal: 42,
   },
   emoji: {
     fontSize: 38,
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     color: colors.heading,
     width: '100%',
     fontSize: 16,
-    marginTop: 60,
+    marginTop: 40,
     padding: 10,
     textAlign: 'center'
   },

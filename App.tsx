@@ -5,6 +5,7 @@ import { useFonts, Jost_400Regular, Jost_500Medium, Jost_600SemiBold } from '@ex
 
 import Welcome from './src/screens/Welcome';
 import UserIdentification from './src/screens/UserIdentification';
+import Confirmation from './src/screens/Confirmation';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,7 +20,7 @@ export default function App() {
 
   return (
     <>
-      <UserIdentification />
+      <Confirmation />
       <StatusBar style="auto" backgroundColor="#FFF"/>
     </>
   );

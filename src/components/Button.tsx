@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 231,
+    width: 226,
     height: 58,
     backgroundColor: colors.green,
-    borderRadius: 12,
-    marginTop: 70,
+    borderRadius: 14,
+    marginTop: 52,
   },
   text: {
     fontFamily: fonts.medium,
