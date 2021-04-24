@@ -42,17 +42,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'android'? 26:0,
+    paddingTop: Platform.OS === 'android'? 28:0,
+    marginHorizontal: 14,
   },
   title: {
-    fontSize: 32,
-    lineHeight: 36,
+    fontSize: 30,
+    lineHeight: 38,
     textAlign: 'center',
     color: colors.heading,
     fontFamily: fonts.heading,
   },
   image: {
-    width: Dimensions.get('window').height * 0.7,
+    width: Dimensions.get('window').width * 0.8,
   },
   description: {
     fontFamily: fonts.text,
