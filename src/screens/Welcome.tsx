@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, Platform, Dimensions 
+import {
+  Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, Platform, Dimensions
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
@@ -30,7 +31,7 @@ export default function Welcome() {
 
       <TouchableOpacity style={styles.button} activeOpacity={0.7} >
         <Text>
-          <Entypo name="chevron-right" size={28} color={colors.white}/>
+          <Entypo name="chevron-right" size={28} color={colors.white} />
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingTop: Platform.OS === 'android'? 28:0,
+    paddingTop: Platform.OS === 'android' ? 28 : 0,
     marginHorizontal: 14,
   },
   title: {
