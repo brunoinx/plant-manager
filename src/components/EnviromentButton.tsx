@@ -35,10 +35,10 @@ const styles = StyleSheet.create({
   button: {
     width: 96,
     height: 46,
-    borderRadius: 12,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 6,
+    marginHorizontal: 5,
     backgroundColor: colors.shape,
   },
   buttonActive: {

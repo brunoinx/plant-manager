@@ -7,30 +7,49 @@ import EnviromentButton from '../components/EnviromentButton';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import PlantCardPrimary from '../components/PlantCardPrimary';
 
 interface ButtonRoomsProps {
   key: string;
   title: string;
 }
-interface PlantProps {
-  id: number;
+
+interface PlantListProps {
+  id: string;
   name: string;
+  about: string;
+  water_tips: string;
   photo: string;
+  environments: [string];
+  frequency: {
+    times: number;
+    repeat_every: string;
+  }
 }
 
 export default function ListPlants() {
   const [buttonRooms, setButtonRooms] = useState<ButtonRoomsProps[]>([]);
-  const [listPlants, setListPlants] = useState<PlantProps[]>([]);
+  const [plantList, setPlantList] = useState<PlantListProps[]>([]);
 
   useEffect(() => {
-    api.get('plants_environments').then(response => {
-      setButtonRooms(response.data);
+    api.get('plants_environments', {
+      params: {
+        _sort: 'title',
+        _order: 'asc'
+      }
+    }).then(({ data }) => {
+      setButtonRooms([{ key: 'All', title: 'Todos' }, ... data]);
     })
   }, []);
 
   useEffect(() => {
-    api.get('plants').then(response => {
-      setListPlants(response.data);
+    api.get('plants', {
+      params: {
+        _sort: 'name',
+        _order: 'asc'
+      }
+    }).then(({ data }) => {
+      setPlantList(data);
     })
   }, []);
 
@@ -43,19 +62,32 @@ export default function ListPlants() {
         <Text style={styles.subtitle}>você quer colocar sua planta?</Text>
       </View>
 
-      <FlatList
-        keyExtractor={(item) => item.key}
-        data={buttonRooms}
-        renderItem={({ item }) => (
-          <EnviromentButton
-          title={item.title}
-          isActive
-          />
-        )}
-        horizontal
-        showsHorizontalScrollIndicator={false} // ios
-        contentContainerStyle={styles.listButtons}
-      />
+      <View>
+        <FlatList
+          keyExtractor={(item) => item.key}
+          data={buttonRooms}
+          renderItem={({ item }) => (
+            <EnviromentButton
+              title={item.title}
+            />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false} // ios
+          contentContainerStyle={styles.listButtons}
+        />
+      </View>
+
+      <View style={styles.listPlants}>
+        <FlatList
+          data={plantList}
+          renderItem={({ item }) => (
+            <PlantCardPrimary data={item} />
+          )}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
 
     </View>
   );
@@ -67,26 +99,35 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 28,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: fonts.heading,
     color: colors.heading,
-    lineHeight: 26,
+    lineHeight: 22,
     marginTop: 15,
   },
   subtitle: {
     fontFamily: fonts.text,
-    fontSize: 20,
-    lineHeight: 24,
+    fontSize: 18,
+    lineHeight: 22,
     color: colors.heading
   },
   listButtons: {
     justifyContent: 'center',
     height: 68,
-    paddingBottom: 5,
-    marginVertical: 32,
+    paddingBottom: 8,
+    marginTop: 32,
+    marginBottom: 20,
+    marginRight: 60,
     marginLeft: 30,
+  },
+  listPlants: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 28,
+  },
+  listContainer: {
   }
 })
