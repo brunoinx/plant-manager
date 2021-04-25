@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import EnviromentButton from '../components/EnviromentButton';
+import api from '../services/api';
+
 import Header from '../components/Header';
+import EnviromentButton from '../components/EnviromentButton';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
+interface ButtonRoomsProps {
+  key: string;
+  title: string;
+}
+interface PlantProps {
+  id: number;
+  name: string;
+  photo: string;
+}
+
 export default function ListPlants() {
+  const [buttonRooms, setButtonRooms] = useState<ButtonRoomsProps[]>([]);
+  const [listPlants, setListPlants] = useState<PlantProps[]>([]);
+
+  useEffect(() => {
+    api.get('plants_environments').then(response => {
+      setButtonRooms(response.data);
+    })
+  }, []);
+
+  useEffect(() => {
+    api.get('plants').then(response => {
+      setListPlants(response.data);
+    })
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,11 +44,11 @@ export default function ListPlants() {
       </View>
 
       <FlatList
-        keyExtractor={(item) => item.toString()}
-        data={[1, 2, 3, 4, 5,6, 7, 8]}
+        keyExtractor={(item) => item.key}
+        data={buttonRooms}
         renderItem={({ item }) => (
           <EnviromentButton
-          title="Sala"
+          title={item.title}
           isActive
           />
         )}
