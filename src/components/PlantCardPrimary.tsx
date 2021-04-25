@@ -37,7 +37,6 @@ export default function PlantCardPrimary({ data, ...rest }: PlantProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
     backgroundColor: colors.shape,
     borderRadius: 20,
     paddingVertical: 10,

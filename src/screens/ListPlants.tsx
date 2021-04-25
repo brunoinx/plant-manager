@@ -30,6 +30,23 @@ interface PlantListProps {
 export default function ListPlants() {
   const [buttonRooms, setButtonRooms] = useState<ButtonRoomsProps[]>([]);
   const [plantList, setPlantList] = useState<PlantListProps[]>([]);
+  const [filteredPlantsList, setFilteredPlantList] = useState<PlantListProps[]>([]);
+  const [enviromentSelected, setEnviromentSelected] = useState('all');
+
+  function handleSelectEnviroment(enviroment: string) {
+    setEnviromentSelected(enviroment);
+
+    if (enviroment === 'all') {
+      return setFilteredPlantList(plantList)
+    }
+
+    const filtered = plantList.filter(plant =>
+      plant.environments.includes(enviroment)
+    )
+
+    setFilteredPlantList(filtered);
+  }
+
 
   useEffect(() => {
     api.get('plants_environments', {
@@ -38,7 +55,7 @@ export default function ListPlants() {
         _order: 'asc'
       }
     }).then(({ data }) => {
-      setButtonRooms([{ key: 'All', title: 'Todos' }, ... data]);
+      setButtonRooms([{ key: 'all', title: 'Todos' }, ... data]);
     })
   }, []);
 
@@ -69,6 +86,8 @@ export default function ListPlants() {
           renderItem={({ item }) => (
             <EnviromentButton
               title={item.title}
+              isActive={item.key === enviromentSelected}
+              onPress={() => handleSelectEnviroment(item.key)}
             />
           )}
           horizontal
@@ -79,7 +98,7 @@ export default function ListPlants() {
 
       <View style={styles.listPlants}>
         <FlatList
-          data={plantList}
+          data={filteredPlantsList}
           renderItem={({ item }) => (
             <PlantCardPrimary data={item} />
           )}
