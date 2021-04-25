@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import api from '../services/api';
 
 import Header from '../components/Header';
+import PlantCardPrimary from '../components/PlantCardPrimary';
 import EnviromentButton from '../components/EnviromentButton';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import PlantCardPrimary from '../components/PlantCardPrimary';
+import Load from '../components/Load';
 
 interface ButtonRoomsProps {
   key: string;
@@ -32,6 +33,32 @@ export default function ListPlants() {
   const [plantList, setPlantList] = useState<PlantListProps[]>([]);
   const [filteredPlantsList, setFilteredPlantList] = useState<PlantListProps[]>([]);
   const [enviromentSelected, setEnviromentSelected] = useState('all');
+  const [loading, setLoading] = useState(true);
+
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  async function fetchPlants() {
+    const { data } = await api.get('plants', {
+      params: {
+        _sort: 'name', _order: 'asc', _page: page, _limit: 8
+      }
+    })
+    if (!data) {
+      return setLoading(true);
+    }
+
+    if (page > 1) {
+      setPlantList(oldValue => [...oldValue, ...data])
+      setFilteredPlantList(oldValue => [...oldValue, ...data])
+    } else {
+      setPlantList(data);
+      setFilteredPlantList(data);
+    }
+
+    setLoadingMore(false);
+    setLoading(false);
+  }
 
   function handleSelectEnviroment(enviroment: string) {
     setEnviromentSelected(enviroment);
@@ -47,6 +74,19 @@ export default function ListPlants() {
     setFilteredPlantList(filtered);
   }
 
+  function handleFetchMore(distance: number) {
+    if (distance < 1) {
+      return
+    }
+
+    setLoadingMore(true)
+    setPage(oldValue => oldValue + 1);
+    fetchPlants();
+  }
+
+  useEffect(() => {
+    fetchPlants();
+  }, []);
 
   useEffect(() => {
     api.get('plants_environments', {
@@ -55,20 +95,13 @@ export default function ListPlants() {
         _order: 'asc'
       }
     }).then(({ data }) => {
-      setButtonRooms([{ key: 'all', title: 'Todos' }, ... data]);
+      setButtonRooms([{ key: 'all', title: 'Todos' }, ...data]);
     })
   }, []);
 
-  useEffect(() => {
-    api.get('plants', {
-      params: {
-        _sort: 'name',
-        _order: 'asc'
-      }
-    }).then(({ data }) => {
-      setPlantList(data);
-    })
-  }, []);
+  if (loading) {
+    return <Load />
+  }
 
   return (
     <View style={styles.container}>
@@ -105,6 +138,15 @@ export default function ListPlants() {
           keyExtractor={(item) => item.id}
           numColumns={2}
           showsVerticalScrollIndicator={false}
+          onEndReachedThreshold={0.1}
+          onEndReached={({ distanceFromEnd }) =>
+            handleFetchMore(distanceFromEnd)
+          }
+          ListFooterComponent={
+            loadingMore
+            ? <ActivityIndicator color={colors.green} size={30}/>
+            : <></>
+          }
         />
       </View>
 
