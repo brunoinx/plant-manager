@@ -6,6 +6,7 @@ import colors from '../styles/colors';
 import Welcome from '../screens/Welcome';
 import UserIdentification from '../screens/UserIdentification';
 import Confirmation from '../screens/Confirmation';
+import ListPlants from '../screens/ListPlants';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default function StackRoutes() {
       <Screen name="Welcome" component={Welcome} />
       <Screen name="UserIdentification" component={UserIdentification} />
       <Screen name="Confirmation" component={Confirmation} />
+      <Screen name="ListPlants" component={ListPlants} />
     </Navigator>
   );
 }
