@@ -1,37 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+
 import api from '../services/api';
 
+import Load from '../components/Load';
 import Header from '../components/Header';
 import PlantCardPrimary from '../components/PlantCardPrimary';
 import EnviromentButton from '../components/EnviromentButton';
 
+import { PlantProps } from '../libs/storage';
+
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import Load from '../components/Load';
 
 interface ButtonRoomsProps {
   key: string;
   title: string;
 }
 
-interface PlantListProps {
-  id: string;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: [string];
-  frequency: {
-    times: number;
-    repeat_every: string;
-  }
-}
-
 export default function ListPlants() {
+  const navigation = useNavigation();
+
   const [buttonRooms, setButtonRooms] = useState<ButtonRoomsProps[]>([]);
-  const [plantList, setPlantList] = useState<PlantListProps[]>([]);
-  const [filteredPlantsList, setFilteredPlantList] = useState<PlantListProps[]>([]);
+  const [plantList, setPlantList] = useState<PlantProps[]>([]);
+  const [filteredPlantsList, setFilteredPlantList] = useState<PlantProps[]>([]);
   const [enviromentSelected, setEnviromentSelected] = useState('all');
   const [loading, setLoading] = useState(true);
 
@@ -84,6 +77,10 @@ export default function ListPlants() {
     fetchPlants();
   }
 
+  function handleNavigateToPlanteSave(plant: PlantProps) {
+    navigation.navigate('PlantSave', { plant });
+  }
+
   useEffect(() => {
     fetchPlants();
   }, []);
@@ -133,12 +130,15 @@ export default function ListPlants() {
         <FlatList
           data={filteredPlantsList}
           renderItem={({ item }) => (
-            <PlantCardPrimary data={item} />
+            <PlantCardPrimary
+              data={item}
+              onPress={() => handleNavigateToPlanteSave(item)}
+            />
           )}
           keyExtractor={(item) => item.id}
           numColumns={2}
           showsVerticalScrollIndicator={false}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.1} // qual a distância até o final da página
           onEndReached={({ distanceFromEnd }) =>
             handleFetchMore(distanceFromEnd)
           }
@@ -188,7 +188,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 28,
-  },
-  listContainer: {
   }
 })

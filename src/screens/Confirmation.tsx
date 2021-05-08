@@ -17,19 +17,20 @@ export default function Confirmation() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.emoji}>
-          😄
-        </Text>
 
         <View style={styles.info}>
+          <Text style={styles.emoji}>
+            😄
+          </Text>
+
           <Text style={styles.title}>Prontinho</Text>
 
           <Text style={styles.descrition}>
             Agora vamos começar a cuidar das suas plantinhas com muito cuidado.
           </Text>
-
-          <Button title="Começar" onPress={handleNavigateToListPlants}/>
         </View>
+
+        <Button title="Começar" onPress={handleNavigateToListPlants}/>
       </View>
     </SafeAreaView>
   );
@@ -38,15 +39,17 @@ export default function Confirmation() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    justifyContent: 'center'
   },
   content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 0.8,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingHorizontal: 16
   },
   emoji: {
     fontSize: 56,
+    marginBottom: 16
   },
   info: {
     justifyContent: 'space-around',

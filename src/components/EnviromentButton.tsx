@@ -34,7 +34,7 @@ export default function EnviromentButton({
 const styles = StyleSheet.create({
   button: {
     width: 96,
-    height: 46,
+    height: 40,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
