@@ -8,7 +8,7 @@ import { Feather } from '@expo/vector-icons';
 import { isBefore, format } from 'date-fns';
 
 import { Button } from '../components/Button';
-import { loadPlants, PlantProps, savePlants } from '../libs/storage';
+import { PlantProps, savePlants } from '../libs/storage';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -61,7 +61,7 @@ export default function PlantSave() {
       navigation.navigate('Confirmation', {
         title: 'Tudo Certo!',
         subtitle: 'Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com bastante amor.',
-        buttonTitle: 'Muito Obrigado :D',
+        buttonTitle: 'Minhas plantas 🌱',
         icon: 'hug',
         nextScreen: 'MyPlants'
       });
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
   },
   about: {
     fontFamily: fonts.text,
-    fontSize: 17,
-    lineHeight: 25,
+    fontSize: 16,
+    lineHeight: 22,
     color: colors.heading,
     textAlign: 'center',
     marginVertical: 6
@@ -169,13 +169,12 @@ const styles = StyleSheet.create({
   waterTips: {
     flexDirection: 'row',
     alignItems: 'center',
-
     borderRadius: 12,
 
     backgroundColor: colors.blue_light,
     paddingVertical: 18,
-    paddingRight: 44,
     paddingLeft: 16,
+    paddingRight: 38,
     marginHorizontal: 40,
   },
   tipImage: {

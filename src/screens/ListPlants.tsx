@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/core';
 
 import api from '../services/api';
@@ -30,6 +31,8 @@ export default function ListPlants() {
 
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+
+  const [username, setUsername] = useState<string>();
 
   async function fetchPlants() {
     const { data } = await api.get('plants', {
@@ -82,6 +85,16 @@ export default function ListPlants() {
   }
 
   useEffect(() => {
+    async function loadStorageUserName() {
+      const user = await AsyncStorage.getItem('@plantmanager:user');
+
+      setUsername(user || '');
+    }
+
+    loadStorageUserName();
+  }, []);
+
+  useEffect(() => {
     fetchPlants();
   }, []);
 
@@ -103,7 +116,10 @@ export default function ListPlants() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Header />
+        <Header>
+          <Text style={styles.headerGreting}>Olá,</Text>
+          <Text style={styles.headerUsername}>{username}</Text>
+        </Header>
 
         <Text style={styles.title} >Em qual ambiente </Text>
         <Text style={styles.subtitle}>você quer colocar sua planta?</Text>
@@ -161,6 +177,18 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 28,
+  },
+  headerGreting: {
+    fontSize: 32,
+    lineHeight: 36,
+    color: colors.heading,
+    fontFamily: fonts.light,
+  },
+  headerUsername: {
+    fontFamily: fonts.heading,
+    color: colors.heading,
+    fontSize: 32,
+    lineHeight: 36
   },
   title: {
     fontSize: 18,
