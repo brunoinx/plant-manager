@@ -3,6 +3,7 @@ import { View, StyleSheet, Image } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 import profileImg from '../assets/profile.jpeg';
+import colors from '../styles/colors';
 
 interface HeaderProps {
   children: ReactNode
@@ -32,8 +33,8 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   avatar: {
+    height: 62,
+    width: 62,
     borderRadius: 50,
-    height: 58,
-    width: 58
   }
 });
