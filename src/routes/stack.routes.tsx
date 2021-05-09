@@ -3,13 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import colors from '../styles/colors';
 
-import Welcome from '../screens/Welcome';
 import UserIdentification from '../screens/UserIdentification';
 import Confirmation from '../screens/Confirmation';
-import ListPlants from '../screens/ListPlants';
-import MyPlants from '../screens/MyPlants';
 import PlantSave from '../screens/PlantSave';
-
+import Welcome from '../screens/Welcome';
+import TabRoutes from './tab.routes';
 const { Navigator, Screen } = createStackNavigator();
 
 export default function StackRoutes() {
@@ -25,8 +23,8 @@ export default function StackRoutes() {
       <Screen name="Welcome" component={Welcome} />
       <Screen name="UserIdentification" component={UserIdentification} />
       <Screen name="Confirmation" component={Confirmation} />
-      <Screen name="ListPlants" component={ListPlants} />
-      <Screen name="MyPlants" component={MyPlants} />
+      <Screen name="ListPlants" component={TabRoutes} />
+      <Screen name="MyPlants" component={TabRoutes} />
       <Screen name="PlantSave" component={PlantSave} />
     </Navigator>
   );

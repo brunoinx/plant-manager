@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 32,
     position: 'absolute',
-    top: 40,
+    top: 60,
   },
   name: {
     fontFamily: fonts.heading,

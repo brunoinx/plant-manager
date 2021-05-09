@@ -27,10 +27,11 @@ export default function ListPlants() {
   const [plantList, setPlantList] = useState<PlantProps[]>([]);
   const [filteredPlantsList, setFilteredPlantList] = useState<PlantProps[]>([]);
   const [enviromentSelected, setEnviromentSelected] = useState('all');
+
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const [page, setPage] = useState(1);
-  const [loadingMore, setLoadingMore] = useState(false);
 
   const [username, setUsername] = useState<string>();
 
